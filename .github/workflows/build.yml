@@ -27,9 +27,12 @@ jobs:
           BUNDLE_ID_OVERRIDE: ru.starmel.OpenSuperWhisper.wormeyman
           DISPLAY_NAME_OVERRIDE: WormeymanDevOpenSuperWhisper
         run: ./run.sh build
+      - name: Zip app for upload
+        if: success()
+        run: cd build/Build/Products/Debug && zip -r WormeymanDevOpenSuperWhisper.zip OpenSuperWhisper.app
       - name: Upload app artifact
         uses: actions/upload-artifact@v7
         if: success()
         with:
           name: WormeymanDevOpenSuperWhisper
-          path: build/Build/Products/Debug/OpenSuperWhisper.app
+          path: build/Build/Products/Debug/WormeymanDevOpenSuperWhisper.zip
