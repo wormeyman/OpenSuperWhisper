@@ -94,11 +94,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         if let window = NSApplication.shared.windows.first {
             self.mainWindow = window
             window.delegate = self
-            
+
             window.minSize = NSSize(width: 450, height: 400)
             window.maxSize = NSSize(width: 450, height: 900)
+
+            if AppPreferences.shared.hideDockIcon {
+                NSApplication.shared.setActivationPolicy(.accessory)
+                window.orderOut(nil)
+            }
         }
-        
+
         OpenSuperWhisperApp.startTranscriptionQueue()
         observeMicrophoneChanges()
     }
@@ -313,8 +318,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
     
     func showMainWindow() {
-        NSApplication.shared.setActivationPolicy(.regular)
-        
+        if !AppPreferences.shared.hideDockIcon {
+            NSApplication.shared.setActivationPolicy(.regular)
+        }
+
         if let window = mainWindow {
             if !window.isVisible {
                 window.makeKeyAndOrderFront(nil)

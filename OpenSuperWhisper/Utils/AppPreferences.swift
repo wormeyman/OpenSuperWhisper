@@ -110,4 +110,7 @@ final class AppPreferences {
     
     @UserDefault(key: "addSpaceAfterSentence", defaultValue: true)
     var addSpaceAfterSentence: Bool
+
+    @UserDefault(key: "hideDockIcon", defaultValue: false)
+    var hideDockIcon: Bool
 }

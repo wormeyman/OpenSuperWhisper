@@ -23,4 +23,13 @@ jobs:
       - name: Make run.sh executable
         run: chmod +x ./run.sh
       - name: Build with run.sh
-        run: ./run.sh build 
+        env:
+          BUNDLE_ID_OVERRIDE: ru.starmel.OpenSuperWhisper.wormeyman
+          DISPLAY_NAME_OVERRIDE: WormeymanDevOpenSuperWhisper
+        run: ./run.sh build
+      - name: Upload app artifact
+        uses: actions/upload-artifact@v7
+        if: success()
+        with:
+          name: WormeymanDevOpenSuperWhisper
+          path: build/Build/Products/Debug/OpenSuperWhisper.app

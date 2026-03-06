@@ -110,6 +110,12 @@ class SettingsViewModel: ObservableObject {
             AppPreferences.shared.debugMode = debugMode
         }
     }
+
+    @Published var hideDockIcon: Bool {
+        didSet {
+            AppPreferences.shared.hideDockIcon = hideDockIcon
+        }
+    }
     
     @Published var playSoundOnRecordStart: Bool {
         didSet {
@@ -156,6 +162,7 @@ class SettingsViewModel: ObservableObject {
         self.useBeamSearch = prefs.useBeamSearch
         self.beamSize = prefs.beamSize
         self.debugMode = prefs.debugMode
+        self.hideDockIcon = prefs.hideDockIcon
         self.playSoundOnRecordStart = prefs.playSoundOnRecordStart
         self.useAsianAutocorrect = prefs.useAsianAutocorrect
         self.modifierOnlyHotkey = ModifierKey(rawValue: prefs.modifierOnlyHotkey) ?? .none
@@ -1040,6 +1047,21 @@ struct SettingsView: View {
                             .toggleStyle(SwitchToggleStyle(tint: Color.accentColor))
                             .labelsHidden()
                             .help("Enable additional logging and debugging information")
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text("Hide Dock Icon")
+                                .font(.subheadline)
+                            Spacer()
+                            Toggle("", isOn: $viewModel.hideDockIcon)
+                                .toggleStyle(SwitchToggleStyle(tint: Color.accentColor))
+                                .labelsHidden()
+                                .help("Run as a menu bar-only app. Takes effect on next launch.")
+                        }
+                        Text("Restart the app for this setting to take effect.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
                 }
                 .padding()
